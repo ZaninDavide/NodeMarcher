@@ -1,0 +1,236 @@
+
+#rete .node .control input, .node .input-control input {
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: 6px;
+}
+
+input[type=number] {
+  /*for absolutely positioning spinners*/
+  position: relative; 
+  padding: 5px;
+  padding-right: 25px;
+  padding-left: 7px;
+}
+
+#rete input[type=number]::-webkit-inner-spin-button,
+#rete input[type=number]::-webkit-outer-spin-button {
+  opacity: 1; /* this way they're always visible*/
+  -webkit-appearance: inner-spin-button !important;
+  width: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+
+#rete .control input[type=number][readonly="readonly"]::-webkit-inner-spin-button,
+#rete .control input[type=number][readonly="readonly"]::-webkit-outer-spin-button {
+    display: none;
+}
+
+#rete input[type=number] {
+  /*for absolutely positioning spinners*/
+  position: relative; 
+  padding: 5px;
+  padding-right: 25px;
+  padding-left: 7px;
+}
+
+#rete input[type=number]{
+  font-family: Roboto;
+  border-radius: 5px;
+  border: 0px;
+  outline: none;
+  background-color: #3b3b3b;
+  color: white;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+#rete input[type=color]{
+  border-radius: 5px;
+  border: 0px;
+  padding: 0px !important;
+  outline: none;
+  height: 36px;
+  position: relative;
+  width: 100% !important;
+}
+
+#rete input[type=color]::after{
+  content: "";
+  width: calc(100% - 7px);
+  height: calc(100% - 10px);
+  position: absolute;
+  transform: translateY(calc(-100% + 3px)) translateX(-4px);
+  border-radius: calc(5px + 8px);
+  border: 8px solid #242424;
+}
+
+/* --- vec3 --- */
+
+#rete .vec3ControlContainer input:nth-child(1){
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+#rete .vec3ControlContainer input:nth-child(3){
+  border-radius: 0px;
+  margin-top: -1px;
+}
+
+#rete .vec3ControlContainer input:nth-child(5){
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  margin-top: -1px;
+}
+
+/* --- inline vec3 --- */
+
+#rete .inlineVec3ControlContainer input{
+  flex-grow: 1;
+  width: calc(100% / 3);
+  margin: 0px;
+  padding-right: 2px;
+  box-sizing: border-box;
+}
+
+#rete .inlineVec3ControlContainer input:nth-child(1){
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+#rete .inlineVec3ControlContainer input:nth-child(2){
+  border-radius: 0px;
+  margin-left: -5px;
+}
+
+#rete .inlineVec3ControlContainer input:nth-child(3){
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  margin-left: -5px;
+}
+
+#rete .inlineVec3ControlContainer input[type=number]::-webkit-inner-spin-button,
+#rete .inlineVec3ControlContainer input[type=number]::-webkit-outer-spin-button {
+  display: none;
+}
+
+#rete .boolControlTrue, #rete .boolControlFalse{
+  width: 100%; /*132px;*/
+  height: 30px;
+  border-radius: 5px;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background-color: #3b3b3b;
+  overflow: hidden;
+}
+
+#rete .boolControlTrue::after, #rete .boolControlFalse::after{
+  display: block;
+  font-family: Roboto;
+  color: #3b3b3b;
+  background-color: white;
+  width: 50%;
+  height: 100%;
+  transition: transform .1s ease-in-out;
+  box-sizing: border-box;
+  text-align: center;
+  padding-top: 6px;
+}
+
+#rete .boolControlTrue::after{
+  content: "True";
+  transform: translateX(100%);
+}
+
+#rete .boolControlFalse::after{
+  content: "False";
+}
+
+#rete .control_grid{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  width: 200px; /*132px;*/
+}
+
+#rete .control_grid .control_caption{
+  line-height: 30px;
+  /*padding-right: 18px;*/
+  padding-right: 12px;
+  padding-left: 6px;
+  font-family: Roboto;
+  color: white;
+  font-size: 14px;
+  max-width: 112px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; 
+  box-sizing: border-box;
+}
+
+#rete .control_grid .control_caption.control_caption_color{
+  padding-top: 3px;
+}
+
+#rete .controlTextarea{
+  resize: vertical;
+  outline: none;
+  background-color: #3b3b3b;
+  color: white;
+  white-space: pre;
+  overflow-wrap: normal;
+  border: 0px;
+  border-radius: 5px;
+  margin-left: 6px;
+  font-family: monospace;
+  font-size: 14px;
+  resize: none;
+}
+
+#rete .controlTextarea:focus{
+  width: 600px;
+}
+
+#rete .control_grid_vertical{
+  display: grid;
+  grid-template-rows: auto auto;
+  width: 200px; /*132px;*/
+}
+
+#rete .control_grid_vertical .control_caption{
+  line-height: 30px;
+  /*padding-right: 18px;*/
+  padding-right: 12px;
+  padding-left: 6px;
+  font-family: Roboto;
+  color: white;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; 
+  box-sizing: border-box;
+}
+
+/* width */
+#rete .control_grid_vertical textarea::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+#rete .control_grid_vertical textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+#rete .control_grid_vertical textarea::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .2);
+  cursor: pointer;
+}
+
+/* Handle */
+#rete .control_grid_vertical textarea::-webkit-scrollbar-button {
+  visibility: none;
+}
