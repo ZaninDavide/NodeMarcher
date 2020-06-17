@@ -3,6 +3,14 @@ function fragmentSource(data = {}) {
   if(!data.scene) data.scene = "scn(1., mat(vec3(1.), 1.))"
   if(!data.clearColor) data.clearColor = "vec3(0, 0, 0)"
 
+  let vars_text = ""
+  if(data.vars){
+    Object.keys(data.vars).forEach(v => {
+      vars_text += `${data.vars[v].type} ${v} = ${data.vars[v].value};` + "\n  "
+    });
+  }
+
+
   let code = `
 #version 300 es
 precision mediump float;
@@ -108,6 +116,7 @@ scn scene_union(scn sceneA, scn sceneB){
 }
 
 scn scene_at(vec3 point){
+  ${vars_text}
   return ${data.scene};
 }
 
@@ -159,7 +168,7 @@ vec3 ray_marcher(vec2 uv, cam camera){
 
   // lighting
   vec3 light_pos = vec3(1, 1, 1);
-  vec3 light_intensity = vec3(.1, .8, .3);
+  vec3 light_intensity = vec3(.8, .8, .6);
   vec3 hit_to_light = light_pos - trace_res.hit_point;
 
   float diffuse = dot(normalize(hit_to_light), normal) / length(hit_to_light);
@@ -175,8 +184,8 @@ void main() {
   vec2 uv = get_uv();
 
   cam camera;
-  camera.pos = vec3(0, 0.2, 5);
-  camera.rot = vec3(-0.05, 0, 0);
+  camera.pos = vec3(0, 0, 5);
+  camera.rot = vec3(0, 0, 0);
   camera.fNear = 3.0;
 
   color = vec4(ray_marcher(uv, camera), 1); 

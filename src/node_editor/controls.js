@@ -293,3 +293,52 @@ class TextAreaControl extends Rete.Control {
     this.vueContext.value = val;
   }
 }
+
+
+// --- DROPDOWN ---
+
+var VueDropDownControl = {
+  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'caption', 'options'],
+  template: `<div class="control_grid"><div class="control_caption" :title="title">{{title}}</div>
+              <select :title="title" @input="change($event)" >
+                <option v-for="(item, index) in items" :value="item">{{ item }}</option>
+              </select>
+            </div>`,
+  data() {
+    return {
+      items: [],
+      value: "",
+      title: "",
+    }
+  },
+  methods: {
+    change(e){
+      this.value = e.target.value;
+      this.update();
+    },
+    update() {
+      if (this.ikey)
+        this.putData(this.ikey, this.value)
+      this.emitter.trigger('process');
+    }
+  },
+  mounted() {
+    this.items = this.options;
+    this.value = this.options[0];
+    this.putData(this.ikey, this.value)
+    this.title = this.caption;
+  }
+}
+
+class DropDownControl extends Rete.Control {
+
+  constructor(emitter, key, caption, options, readonly) {
+    super(key);
+    this.component = VueDropDownControl;
+    this.props = { emitter, ikey: key, readonly, caption: caption, options };
+  }
+
+  setValue(val) {
+    this.vueContext.value = val;
+  }
+}

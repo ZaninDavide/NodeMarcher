@@ -29,7 +29,12 @@ function compileShader(shaderSource, shaderType) {
   gl.shaderSource(shader, shaderSource);
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    throw "Shader compile failed with: " + gl.getShaderInfoLog(shader);
+    let error = "Shader compile failed with: " + gl.getShaderInfoLog(shader);
+
+    const codeLines = lastCode.split("\n")
+    let lines = codeLines[parseFloat(error.split(":")[3]) - 1]
+
+    throw error + "\n" + lines
   }
   return shader;
 }
@@ -54,13 +59,17 @@ function getUniformLocation(program, name) {
 
 //************** Create shaders **************
 let program;
+let lastCode = "";
 var timeHandle;
 var resHandle;
 
 function updateShaders(data = {}){
   //Create vertex and fragment shaders
   var vertexShader = compileShader(vertexSource.trim(), gl.VERTEX_SHADER);
-  var fragmentShader = compileShader(fragmentSource(data).trim(), gl.FRAGMENT_SHADER);
+
+  let fragCode = fragmentSource(data).trim()
+  lastCode = fragCode
+  var fragmentShader = compileShader(fragCode, gl.FRAGMENT_SHADER);
   
   //Create shader programs
   program = gl.createProgram();

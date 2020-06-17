@@ -144,6 +144,9 @@
   margin-bottom: 10px;
 }
 
+#rete .node .control{
+  padding-left: 12px;
+}
 
 /* --------------------------- TITLES COLORS --------------------------- */
 
@@ -157,17 +160,19 @@
   background-color: #a8201b;
 }
 
-#rete .node.color .title,
-#rete .node.mix .title{
+#rete .node.material .title{
   background-color: #c7a200;
 }
 
 #rete .node.vector3 .title,
-#rete .node.scale .title{
+#rete .node.scale .title,
+#rete .node.color .title,
+#rete .node.mix .title{
   background-color: #5c2a9d;
 }
 
-#rete .node.sphere .title{
+#rete .node.sphere .title,
+#rete .node.boolean .title{
   background-color: #44a131;
 }
 

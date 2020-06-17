@@ -234,3 +234,13 @@ input[type=number] {
 #rete .control_grid_vertical textarea::-webkit-scrollbar-button {
   visibility: none;
 }
+
+#rete select{
+  background-color: #3b3b3b;
+  outline: none;
+  border: 0px;
+  color: white;
+  border-radius: 5px; 
+  font-family: Roboto;
+  font-size: 14px;
+}

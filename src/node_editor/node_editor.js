@@ -3,16 +3,20 @@ let updateViewport;
 (async () => {
     var container = document.querySelector('#rete');
     
+    //"Add": new AddComponent(), 
+    //"Multiply": new MultiplyComponent(), 
+    
     var components_names = {
       "Number": new NumComponent(), 
-      "Add": new AddComponent(), 
-      "Multiply": new MultiplyComponent(), 
-      "Output": new OutputComponent(), 
-      "Color": new ColorComponent(), 
+      "Math": new MathComponent(),
       "Vector3": new Vec3Component(), 
       "Scale": new ScaleComponent(), 
+      "Color": new ColorComponent(), 
       "Mix": new MixColorsComponent(),
+      "Material": new MaterialComponent(),
       "Sphere": new SphereComponent(),
+      "Boolean": new BooleanComponent(),
+      "Output": new OutputComponent(), 
       "Input": new InputComponent(),
     };
 
@@ -89,6 +93,7 @@ let updateViewport;
 
       if(e.key === "p"){
         console.log(editor.toJSON())
+        console.log(lastCode)
       }
       /*
       if(e.ctrlKey && e.shiftKey && e.key === "Z"){

@@ -3,12 +3,10 @@
 var numSocket = new Rete.Socket('Number socket');
 var vec3Socket = new Rete.Socket('Vec3 socket');
 var sceneSocket = new Rete.Socket('Scene socket');
-var materialSocket = new Rete.Socket('Material socket');
+var matSocket = new Rete.Socket('Material socket');
 
 
-vec3Socket.combineWith(numSocket);
-vec3Socket.combineWith(sceneSocket);
-numSocket.combineWith(sceneSocket);
+// vec3Socket.combineWith(numSocket);
 
 // ------------------------------ NODES ------------------------------
 
@@ -50,12 +48,18 @@ class InputComponent extends Rete.Component {
   builder(node){
     // define in-out sockets
     let uv = new Rete.Output("uv",  "UV", vec3Socket)
+    let world = new Rete.Output("world",  "World", vec3Socket)
+    let time = new Rete.Output("time",  "Time", numSocket)
 
     // apply them all
     node.addOutput(uv)
+    node.addOutput(world)
+    node.addOutput(time)
 
     // set default values
+    node.data.world = {x: 0, y:0, z: 0}
     node.data.uv = {x: 0, y:0, z: 0}
+    node.data.time = 0
 
 
     return node
@@ -259,7 +263,7 @@ class SphereComponent extends Rete.Component {
       let scene_output = new Rete.Output("scene",  "Scene", sceneSocket)
       let origin = new Rete.Input("origin",  "Origin", vec3Socket)
       let radius = new Rete.Input("radius",  "Radius", numSocket)
-      let material = new Rete.Input("material",  "Material", materialSocket)
+      let material = new Rete.Input("material",  "Material", matSocket)
       let world = new Rete.Input("world",  "World", vec3Socket)
   
       // apply them all
@@ -285,4 +289,79 @@ class SphereComponent extends Rete.Component {
     worker(node, inputs, outputs) {
       outputs["output"] = 0;
     }
+}
+
+class MaterialComponent extends Rete.Component {
+    constructor(){
+        super("Material")
+    }
+
+    builder(node) {
+      // define in-out sockets
+      let material_output = new Rete.Output("material",  "Material", matSocket)
+      let diffuse = new Rete.Input("diffuse",  "Diffuse", vec3Socket)
+      let spec = new Rete.Input("spec",  "Specularity", numSocket)
+
+      // apply them all
+      node.addOutput(material_output)
+      node.addInput(diffuse)
+      node.addInput(spec)
+      
+      // initialize controls
+      diffuse.addControl(new ColControl(this.editor, 'diffuse', "Diffuse"))
+      spec.addControl(new NumControl(this.editor, 'spec', "Specularity"))
+  
+      // set default values
+      node.data.diffuse = {x: 0, y: 0, z: 0}
+      node.data.spec = 1
+  
+  
+      return node
+    }
+}
+
+class MathComponent extends Rete.Component {
+  constructor(){
+    super("Math");
+  }
+
+  builder(node) {
+    var inp1 = new Rete.Input('input1',"Value", numSocket);
+    var inp2 = new Rete.Input('input2', "Value", numSocket);
+    var out = new Rete.Output('output', "Value", numSocket);
+
+    node.addControl(new DropDownControl(this.editor, 'operation', "Operation", ["Add", "Subtract", "Multiply", "Divide", "Pow"]))
+
+    inp1.addControl(new NumControl(this.editor, 'input1', "Value"))
+    inp2.addControl(new NumControl(this.editor, 'input2', "Value"))
+
+    node.addInput(inp1)
+        .addInput(inp2)
+        .addOutput(out);
+    
+    node.data.input1 = 0
+    node.data.input2 = 0
+
+    return node
+  }
+}
+
+class BooleanComponent extends Rete.Component {
+  constructor(){
+    super("Boolean");
+  }
+
+  builder(node) {
+    var inp1 = new Rete.Input('input1',"Scene", sceneSocket);
+    var inp2 = new Rete.Input('input2', "Scene", sceneSocket);
+    var out = new Rete.Output('output', "Scene", sceneSocket);
+
+    node.addControl(new DropDownControl(this.editor, 'operation', "Operation", ["Union", "Difference", "Intersection"]))
+
+    node.addInput(inp1)
+        .addInput(inp2)
+        .addOutput(out);
+
+    return node
+  }
 }
