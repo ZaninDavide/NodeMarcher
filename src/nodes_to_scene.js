@@ -39,24 +39,34 @@ function has_multiple_connections(node_id, output_name){
     return node.outputs[output_name].connections.length > 1
 }
 
-function parse_input(node, input_name, has_control = true, can_variable = true){
+function parse_input(node, input_name, input_settings = {}){
+    const settings = {has_control: true, can_variable: true, default: undefined, ...input_settings};
+
     if(node.inputs[input_name].connections.length === 0){
-        if(has_control){
+        if(settings.has_control){
             if(node.data[input_name] === undefined){
-                missing_input(node, input_name)
-                return false
+                if(settings.default) {
+                    return [settings.default]
+                }else{
+                    missing_input(node, input_name)
+                    return false
+                }
             }else{
                 return [ node.data[input_name] ]
             }
         }else{
-            missing_input(node, input_name)
-            return false
+            if(settings.default) {
+                return [settings.default]
+            }else{
+                missing_input(node, input_name)
+                return false
+            }
         }
     }else{
         return node.inputs[input_name].connections.map(c => {
             const var_name = "var_" + c.node + "_" + c.output
-            if(vars[var_name] === undefined || !can_variable){
-                if(has_multiple_connections(c.node, c.output) && can_variable){
+            if(vars[var_name] === undefined || !settings.can_variable){
+                if(has_multiple_connections(c.node, c.output) && settings.can_variable){
                     vars[var_name] = resolve_node(c.node, c.output)
                     return var_name
                 }else{
@@ -83,8 +93,8 @@ function resolve_node(node_id, output_name){
     switch (node.name) {
         // -------------------------- OUTPUT --------------------------
         case "Output":
-            const scene = parse_input(node, "scene", false)[0];
-            const clearColor = parse_input(node, "clearColor", true, false)[0];
+            const scene = parse_input(node, "scene", {has_control: false})[0];
+            const clearColor = parse_input(node, "clearColor", {can_variable: false})[0];
 
             return {log: "Success", scene, clearColor: parse_vec3(clearColor)}
             break;
@@ -93,9 +103,9 @@ function resolve_node(node_id, output_name){
         case "Sphere":
             const origin = parse_input(node, "origin")[0];
             const radius = parse_input(node, "radius")[0];
-            const material = parse_input(node, "material")[0] || defaultMaterial();
-            const world = parse_input(node, "world")[0] || "point";
-            
+            const material = parse_input(node, "material", {default: defaultMaterial()})[0];
+            const world = parse_input(node, "world", {default: "world"})[0];
+
             switch (output_name){
                 case "scene":
                     return {type: "scn", value: `sphere_at(${world}, ${parse_vec3(origin)}, ${parse_num(radius)}, ${material})`}
@@ -114,7 +124,7 @@ function resolve_node(node_id, output_name){
                     return {type: "vec3", value: `vec3(get_uv(), 0)`}
                     break;
                 case "world":
-                    return {type: "vec3", value: `point`}
+                    return {type: "vec3", value: `world`}
                     break;
                 case "time":
                     return {type: "float", value: `time`}
@@ -244,6 +254,26 @@ function resolve_node(node_id, output_name){
                     return ""
             }
             break;
+
+        // -------------------------- CUBE --------------------------
+        case "Cube":
+            const cube_origin = parse_input(node, "origin")[0];
+            const cube_size = parse_input(node, "size")[0];
+            const cube_radius = parse_input(node, "radius")[0];
+            const cube_material = parse_input(node, "material", {default: defaultMaterial()})[0];
+            const cube_world = parse_input(node, "world", {default: "world"})[0];
+
+            switch (output_name){
+                case "scene":
+                    return {type: "scn", value: `cube_at(${cube_world}, ${parse_vec3(cube_origin)}, ${parse_vec3(cube_size)}, ${parse_num(cube_radius)}, ${cube_material})`}
+                    break;
+                default:
+                    console.log(`This input is unknown: '${output_name}' for node of type ${node.name}`)
+                    return ""
+            }
+
+            break;
+
 
         // -------------------------- ELSE --------------------------
         default:

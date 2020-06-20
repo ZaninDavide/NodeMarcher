@@ -365,3 +365,45 @@ class BooleanComponent extends Rete.Component {
     return node
   }
 }
+
+class CubeComponent extends Rete.Component {
+  constructor(){
+      super("Cube")
+  }
+
+  builder(node) {
+    // define in-out sockets
+    let scene_output = new Rete.Output("scene",  "Scene", sceneSocket)
+    let origin = new Rete.Input("origin",  "Origin", vec3Socket)
+    let size = new Rete.Input("size",  "Size", vec3Socket)
+    let radius = new Rete.Input("radius",  "Radius", numSocket)
+    let material = new Rete.Input("material",  "Material", matSocket)
+    let world = new Rete.Input("world",  "World", vec3Socket)
+
+    // apply them all
+    node.addOutput(scene_output)
+    node.addInput(origin)
+    node.addInput(size)
+    node.addInput(radius)
+    node.addInput(material)
+    node.addInput(world)
+    
+    // initialize controls
+    origin.addControl(new InlineVec3Control(this.editor, 'origin', "Origin"))
+    size.addControl(new InlineVec3Control(this.editor, 'size', "Size"))
+    radius.addControl(new NumControl(this.editor, 'radius', "Radius"))
+
+    // set default values
+    node.data.scene = 0
+    node.data.origin = {x: 0, y: 0, z: 0}
+    node.data.size = {x: 1, y: 1, z: 1}
+    node.data.radius = .1
+
+
+    return node
+  }
+
+  worker(node, inputs, outputs) {
+    outputs["output"] = 0;
+  }
+}

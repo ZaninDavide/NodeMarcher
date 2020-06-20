@@ -100,12 +100,15 @@ scn sphere_at(vec3 point, vec3 origin, float radius, mat material){
   return scene;
 }
 
-// --------------------- ray marching
-
-scn apply_material(scn scene, mat material){
+scn cube_at(vec3 point, vec3 origin, vec3 size, float radius, mat material){
+  scn scene;
+  vec3 q = abs(point - origin) - size;
+  scene.distance = length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0) - radius;
   scene.material = material;
   return scene;
 }
+
+// --------------------- booleans
 
 scn scene_union(scn sceneA, scn sceneB){
   if(sceneA.distance <= sceneB.distance){
@@ -115,7 +118,23 @@ scn scene_union(scn sceneA, scn sceneB){
   }
 }
 
-scn scene_at(vec3 point){
+scn scene_intersection(scn sceneA, scn sceneB){
+  if(sceneA.distance >= sceneB.distance){
+    return sceneA;
+  }else{
+    return sceneB;
+  }
+}
+
+// --------------------- ray marching
+
+scn apply_material(scn scene, mat material){
+  scene.material = material;
+  return scene;
+}
+
+
+scn scene_at(vec3 world){
   ${vars_text}
   return ${data.scene};
 }

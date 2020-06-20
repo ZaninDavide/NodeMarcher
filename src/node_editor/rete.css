@@ -172,7 +172,8 @@
 }
 
 #rete .node.sphere .title,
-#rete .node.boolean .title{
+#rete .node.boolean .title,
+#rete .node.cube .title{
   background-color: #44a131;
 }
 

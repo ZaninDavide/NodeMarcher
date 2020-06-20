@@ -1,6 +1,29 @@
-let updateViewport;
+let updateViewport = () => console.log("updateViewport will get its value after the initialization.");
 
-(async () => {
+const wait_time = 100
+let time_zero = new Date()
+let timer_on = false
+
+function smart_update(){
+  const waited_millis = new Date() - time_zero;
+  
+  const update_now = () => {
+    timer_on = false
+    time_zero = new Date()
+    updateViewport()
+  }
+
+  if(waited_millis >= wait_time){
+    update_now()
+  }else if(!timer_on){
+    timer_on = true
+    setTimeout(async () => {
+      update_now()
+    }, wait_time - waited_millis)
+  }
+}
+
+const init = async () => {
     var container = document.querySelector('#rete');
     
     //"Add": new AddComponent(), 
@@ -15,6 +38,7 @@ let updateViewport;
       "Mix": new MixColorsComponent(),
       "Material": new MaterialComponent(),
       "Sphere": new SphereComponent(),
+      "Cube": new CubeComponent(),
       "Boolean": new BooleanComponent(),
       "Output": new OutputComponent(), 
       "Input": new InputComponent(),
@@ -66,6 +90,8 @@ let updateViewport;
       await engine.abort();
       await engine.process(editor.toJSON());
       // console.log(editor.toJSON())
+      // updateViewport()
+      smart_update()
     });
 
     let duplicate_node = async node => {
@@ -121,5 +147,7 @@ let updateViewport;
       updateShaders(data)
     }
 
-  updateViewport()
-})();
+    updateViewport()
+};
+
+init();
