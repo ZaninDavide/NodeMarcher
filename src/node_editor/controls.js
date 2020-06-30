@@ -130,7 +130,7 @@ var VueVec3Control = {
     },
     update() {
       if (this.ikey)
-        this.putData(this.ikey, {x: this.x, y: this.y, z: this.z})
+        this.putData(this.ikey, {x: parseFloat(this.x), y: parseFloat(this.y), z: parseFloat(this.z)})
       this.emitter.trigger('process');
     }
   },
@@ -187,7 +187,7 @@ var VueInlineVec3Control = {
     },
     update() {
       if (this.ikey)
-        this.putData(this.ikey, {x: this.x, y: this.y, z: this.z})
+        this.putData(this.ikey, {x: parseFloat(this.x), y: parseFloat(this.y), z: parseFloat(this.z)})
       this.emitter.trigger('process');
     }
   },

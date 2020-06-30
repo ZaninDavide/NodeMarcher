@@ -6,7 +6,7 @@ function fragmentSource(data = {}) {
   let vars_text = ""
   if(data.vars){
     Object.keys(data.vars).forEach(v => {
-      vars_text += `${data.vars[v].type} ${v} = ${data.vars[v].value};` + "\n  "
+      vars_text += `${data.vars[v].type.split(" ")[0]} ${v} = ${data.vars[v].value};` + "\n  "
     });
   }
 

@@ -6,7 +6,8 @@ var sceneSocket = new Rete.Socket('Scene socket');
 var matSocket = new Rete.Socket('Material socket');
 
 
-// vec3Socket.combineWith(numSocket);
+vec3Socket.combineWith(numSocket);
+numSocket.combineWith(vec3Socket);
 
 // ------------------------------ NODES ------------------------------
 
