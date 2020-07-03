@@ -331,7 +331,7 @@ class MathComponent extends Rete.Component {
     var inp2 = new Rete.Input('input2', "Value", numSocket);
     var out = new Rete.Output('output', "Value", numSocket);
 
-    node.addControl(new DropDownControl(this.editor, 'operation', "Operation", ["Add", "Subtract", "Multiply", "Divide", "Pow"]))
+    node.addControl(new DropDownControl(this.editor, 'operation', "Operation", ["Add", "Subtract", "Multiply", "Divide", "Pow", "Modulo"]))
 
     inp1.addControl(new NumControl(this.editor, 'input1', "Value"))
     inp2.addControl(new NumControl(this.editor, 'input2', "Value"))

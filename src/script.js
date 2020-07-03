@@ -1,5 +1,3 @@
-var previewWIDTH = 0.3;
-
 var canvas = document.getElementById("canvas");
 var gl = canvas.getContext("webgl2");
 
@@ -15,11 +13,16 @@ void main() {
 }
 `;
 
-function resize() {
-    canvas.width = window.innerWidth * previewWIDTH;
-    canvas.height = window.innerHeight;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform2f(resHandle, canvas.width, canvas.height);
+resize = () => {
+  document.getElementById("rete").style.width = document.getElementById("rete_container").style.width
+  
+  canvas.width = document.getElementById("canvas_container").clientWidth;
+  canvas.height = document.getElementById("splitter").clientHeight;
+  document.getElementById("canvas").style.width = canvas.width.toString() + "px"
+  document.getElementById("canvas").style.height = canvas.height.toString() + "px"
+  
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.uniform2f(resHandle, canvas.width, canvas.height);
 }
 
 

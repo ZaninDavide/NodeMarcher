@@ -138,7 +138,7 @@ const init = async () => {
     
     engine.on('error', ({ message, data }) => { });
 
-    editor.view.resize();
+    // editor.view.resize();
     AreaPlugin.zoomAt(editor);
     editor.trigger('process');
 

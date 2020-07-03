@@ -8,10 +8,20 @@
 
   <link rel="stylesheet" href="./node_editor/rete.css">
   <link rel="stylesheet" href="./node_editor/node_fields.css">
+  <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
-  <div id="rete"></div>
+  <div id="splitter">
+    <div id="canvas_container" class="split">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div id="rete_container" class="split">
+      <div id="rete"></div>
+    </div>
+  </div>
+
+  <!-- UI -->
+  <script src="./UI.js"></script>
 
   <!-- ray_marcher -->
   <script src="./fragment_shader.js"></script>

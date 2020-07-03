@@ -265,6 +265,7 @@ function resolve_node(node_id, output_name){
                         case "Multiply":    return {type: "float expr", value: `${parse_num(math_input1)} * ${parse_num(math_input2)}`}; break;
                         case "Divide":      return {type: "float expr", value: `${parse_num(math_input1)} / ${parse_num(math_input2)}`}; break;
                         case "Pow":         return {type: "float expr", value: `pow(${parse_num(math_input1)}, ${parse_num(math_input2)})`}; break;
+                        case "Modulo":      return {type: "float expr", value: `mod(${parse_num(math_input1)}, ${parse_num(math_input2)})`}; break;
                         default: 
                             console.log(`This item is unknown: '${operation}' for node of type ${node.name}`)
                             return ""
